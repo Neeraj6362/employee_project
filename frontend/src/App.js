@@ -19,39 +19,52 @@ export default function App() {
   const fetchEmp = async () => {
     setErr("");
     setMsg("");
+    setData(null); // clear old data before new search
     try {
-      let r = await fetch(API + "/employees/" + empId);
-      let j = await r.json();
-      if (!r.ok) setErr(j.message);
-      else setData(j);
-    } catch {
+      const r = await fetch(`${API}/employees/${empId}`);
+      const j = await r.json();
+      if (!r.ok) {
+        setErr(j.message || "Error fetching employee");
+      } else {
+        setData(j);
+      }
+    } catch (error) {
       setErr("Backend unreachable");
     }
   };
 
-  const add = async e => {
+  const add = async (e) => {
     e.preventDefault();
     setErr("");
     setMsg("");
 
     // Clean payload: remove empty strings
-    const payload = {};
-    for (const [key, value] of Object.entries(newEmp)) {
-      if (value !== "") {
-        payload[key] = value;
-      }
-    }
+    const payload = Object.fromEntries(
+      Object.entries(newEmp).filter(([_, value]) => value !== "")
+    );
 
     try {
-      let r = await fetch(API + "/employees", {
+      const r = await fetch(`${API}/employees`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-      let j = await r.json();
-      if (!r.ok) setErr(j.message);
-      else setMsg("Employee added");
-    } catch {
+      const j = await r.json();
+      if (!r.ok) {
+        setErr(j.message || "Error adding employee");
+      } else {
+        setMsg("Employee added successfully");
+        // reset form after success
+        setNewEmp({
+          emp_id: "",
+          name: "",
+          email: "",
+          joining_date: "",
+          relieving_date: "",
+          role: ""
+        });
+      }
+    } catch (error) {
       setErr("Backend unreachable");
     }
   };
@@ -61,25 +74,26 @@ export default function App() {
       <h2>Employee Lookup</h2>
       <input
         value={empId}
-        onChange={e => setEmpId(e.target.value)}
+        onChange={(e) => setEmpId(e.target.value)}
         placeholder="Employee ID"
       />
-      <button onClick={fetchEmp}>Search</button>
+      <button onClick={fetchEmp} disabled={!empId}>Search</button>
       {err && <p style={{ color: "red" }}>{err}</p>}
       {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
 
       <h2>Add Employee</h2>
       <form onSubmit={add} style={{ display: "grid", width: 300, gap: 5 }}>
-        {["emp_id", "name", "email", "joining_date", "relieving_date", "role"].map(f => (
+        {["emp_id", "name", "email", "joining_date", "relieving_date", "role"].map((f) => (
           <input
             key={f}
             type={f.includes("date") ? "date" : "text"}
             placeholder={f}
             value={newEmp[f]}
-            onChange={e => setNewEmp({ ...newEmp, [f]: e.target.value })}
+            onChange={(e) => setNewEmp({ ...newEmp, [f]: e.target.value })}
+            required={f !== "relieving_date"} // make relieving_date optional
           />
         ))}
-        <button>Add</button>
+        <button type="submit">Add</button>
       </form>
       {msg && <p style={{ color: "green" }}>{msg}</p>}
     </div>

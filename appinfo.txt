@@ -1,0 +1,71 @@
+
+Github Credentials
+Username:neeraj6362
+email:gopalamneeraj26@gmail.com
+pass:Gopalam#321
+
+
+https://github.com/Neeraj6362/employee_project.git
+
+
+
+
+
+- Run docker-compose build to build images locally.
+- Then run docker-compose up to start the containers.
+- Use docker-compose ps to verify all services are running.
+
+
+
+employee_api  | WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+employee_api  |  * Running on all addresses (0.0.0.0)
+employee_api  |  * Running on http://127.0.0.1:5000
+employee_api  |  * Running on http://172.18.0.3:5000
+
+- visiting http://localhost:5000/
+
+
+
+employee_ui   | You can now view employee-ui in the browser.
+employee_ui   |
+employee_ui   |   Local:            http://localhost:3000
+employee_ui   |   On Your Network:  http://172.18.0.4:3000
+
+
+neerajnath.g@netjes.net
+
+Employee Id : NSS3224
+Name:Neerajnath Gopalam
+Mail Id : neerajnath.g@netjes.net
+DOJ:05-10-2022
+LWD:18-11-2025
+Role:Data Engineer
+
+
+curl -X POST http://localhost:5000/employees \
+  -H "Content-Type: application/json" \
+  -d '{
+    "emp_id": 105,
+    "name": "Ravi",
+    "email": "ravi@example.com",
+    "joining_date": "2023-07-01",
+    "role": "Developer"
+  }'
+
+
+
+C:\Users\ADMIN\OneDrive\Desktop\employee_project
+C:\Users\ADMIN\OneDrive\Desktop\employee_project
+
+file:///C:/Users/ADMIN/OneDrive/Desktop/employee_project
+
+
+docker-compose build frontend
+docker-compose build backend
+docker-compose up backend
+
+docker exec -it employee_db mysql -uappuser -papppass employees_db
+SHOW TABLES;
+DESCRIBE employees;
+SELECT * FROM employees;
+

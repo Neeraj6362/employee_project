@@ -1,8 +1,4 @@
 
-Github Credentials
-Username:neeraj6362
-email:gopalamneeraj26@gmail.com
-pass:Gopalam#321
 
 
 https://github.com/Neeraj6362/employee_project.git
